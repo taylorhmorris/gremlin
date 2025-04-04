@@ -1,3 +1,3 @@
 # gremlin
 
-A commandline Feed Reader written in Rust
+A command-line RSS Feed Reader written in Rust
