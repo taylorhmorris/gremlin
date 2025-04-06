@@ -19,5 +19,4 @@ pub async fn list(feed_url: &str) {
             println!("---");
         }
     }
-    ()
 }

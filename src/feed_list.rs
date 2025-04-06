@@ -1,6 +1,6 @@
 use crate::load_feeds::load_feeds;
 
-pub fn list(db_path: &str) -> () {
+pub fn list(db_path: &str) {
     // Load the feeds from the specified database path
     let feeds = load_feeds(db_path);
 
