@@ -2,7 +2,7 @@ use feed_rs::parser;
 
 use crate::fetch_url;
 
-pub async fn list(feed_url: &str) {
+pub async fn list_entries(feed_url: &str) {
     let xml = fetch_url(feed_url).await;
     if let Ok(content) = xml {
         let feed = parser::parse(content.as_bytes()).unwrap();

@@ -1,5 +1,6 @@
-pub mod entry_list;
-pub mod feed_list;
+pub mod list;
+pub mod list_entries;
+pub mod list_feeds;
 pub mod load_feeds;
 
 pub async fn fetch_url(url: &str) -> Result<String, reqwest::Error> {
