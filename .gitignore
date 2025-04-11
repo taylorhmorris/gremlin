@@ -1,3 +1,11 @@
+# Build
 /target
+
+# File Storage
 /db
+
+# Configuration
 .env
+
+# Coverage Report
+tarpaulin-report.html
