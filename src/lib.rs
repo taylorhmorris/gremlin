@@ -3,6 +3,7 @@ pub mod list;
 pub mod list_entries;
 pub mod list_feeds;
 pub mod load_feeds;
+pub mod remove_feed;
 
 pub async fn fetch_url(url: &str) -> Result<String, reqwest::Error> {
     // Make an asynchronous GET request to the specified URL

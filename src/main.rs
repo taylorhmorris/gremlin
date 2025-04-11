@@ -2,6 +2,7 @@ use clap::Parser;
 use gremlin::{
     add_feed, list,
     load_feeds::{self, save_feeds},
+    remove_feed,
 };
 use log::{error, trace};
 use std::env;
@@ -9,6 +10,7 @@ use std::env;
 #[derive(Clone, Debug, clap::Subcommand)]
 enum Command {
     Add { url: String },
+    Rm { feed_id: usize },
     Ls { feed_id: Option<usize> },
 }
 
@@ -65,6 +67,17 @@ async fn main() -> Result<(), ()> {
         }
         Command::Ls { feed_id } => {
             list::list(&feeds, feed_id).await;
+        }
+        Command::Rm { feed_id } => {
+            trace!(target: "main", "Removing feed with ID: {}", feed_id);
+            let result = remove_feed::remove_feed(&mut feeds, feed_id);
+            match result {
+                Ok(_) => {
+                    dirty = true;
+                    println!("Feed removed successfully.")
+                }
+                Err(e) => error!("Error removing feed: {}", e),
+            }
         }
     }
 
