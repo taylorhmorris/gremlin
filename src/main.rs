@@ -9,7 +9,7 @@ use std::env;
 #[derive(Clone, Debug, clap::Subcommand)]
 enum Command {
     Add { url: String },
-    Ls,
+    Ls { feed_id: Option<usize> },
 }
 
 #[derive(Parser, Debug)]
@@ -18,9 +18,6 @@ struct Args {
     /// The command to execute
     #[command[subcommand]]
     command: Command,
-
-    /// The ID of the feed to operate on (required for some commands)
-    feed_id: Option<usize>,
 
     /// The path to the feeds database file
     #[arg(short, long, default_value = "db/feeds.grem")]
@@ -58,8 +55,8 @@ async fn main() -> Result<(), ()> {
                 Err(e) => error!("Error adding feed: {}", e),
             }
         }
-        Command::Ls => {
-            list::list(&feeds, args.feed_id).await;
+        Command::Ls { feed_id } => {
+            list::list(&feeds, feed_id).await;
         }
     }
 

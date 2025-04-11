@@ -11,7 +11,7 @@ pub async fn list(feeds: &[String], feed_id: Option<usize>) {
             // List entries for the specified feed ID
             let feed = &feeds[id - 1];
             println!("Feed: {}", feed);
-            list_entries::list_entries(feed).await; // Assuming entry_list::list is an async function
+            list_entries::list_entries(feed).await;
         }
         Some(id) => {
             println!(

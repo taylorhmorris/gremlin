@@ -1,7 +1,7 @@
 use log::{info, trace};
 use std::{
     fs::File,
-    io::{self, BufRead},
+    io::{self, BufRead, Write},
     path::Path,
 };
 
@@ -27,8 +27,13 @@ pub fn load_feeds(file_path: &str) -> Vec<String> {
 
 pub fn save_feeds(file_path: &str, feeds: Vec<String>) -> Result<(), &'static str> {
     trace!("Saving feeds to file: {}", file_path);
-    // Implement the save logic here
-    Err("Not implemented")
+    let mut file = File::create(file_path).map_err(|_| "Failed to create file")?;
+    for feed in &feeds {
+        writeln!(file, "{}", feed).map_err(|_| "Failed to write to file")?;
+        trace!("Wrote feed to file: {}", feed);
+    }
+    trace!("Saved {} feeds to file", feeds.len());
+    Ok(())
 }
 
 #[cfg(test)]
