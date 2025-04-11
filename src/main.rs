@@ -28,7 +28,10 @@ struct Args {
 async fn main() -> Result<(), ()> {
     dotenv::dotenv().ok();
 
-    let log_level = match env::var("GREMLIN_LOG").unwrap_or("info".to_string()).as_str() {
+    let log_level = match env::var("GREMLIN_LOG")
+        .unwrap_or("info".to_string())
+        .as_str()
+    {
         "trace" => log::LevelFilter::Trace,
         "debug" => log::LevelFilter::Debug,
         "info" => log::LevelFilter::Info,
@@ -46,13 +49,17 @@ async fn main() -> Result<(), ()> {
     let args = Args::parse();
     let db_path = args.db_path;
 
+    let mut dirty: bool = false; // track if we need to save feeds
     let mut feeds = load_feeds::load_feeds(&db_path);
     match args.command {
         Command::Add { url } => {
             trace!(target: "main", "Adding URL: {}", url);
             let result = add_feed::add_feed(&mut feeds, &url).await;
             match result {
-                Ok(_) => println!("Feed added successfully."),
+                Ok(_) => {
+                    dirty = true;
+                    println!("Feed added successfully.")
+                }
                 Err(e) => error!("Error adding feed: {}", e),
             }
         }
@@ -61,12 +68,15 @@ async fn main() -> Result<(), ()> {
         }
     }
 
-    let result = save_feeds(&db_path, feeds);
-    match result {
-        Ok(_) => println!("Feeds saved successfully."),
-        Err(e) => {
-            error!("Error saving feeds: {}", e);
-            eprintln!("Could not save feeds: {}", e);
+    if dirty {
+        trace!(target: "main", "Saving feeds to file: {}", db_path);
+        let result = save_feeds(&db_path, feeds);
+        match result {
+            Ok(_) => println!("Feeds saved successfully."),
+            Err(e) => {
+                error!("Error saving feeds: {}", e);
+                eprintln!("Could not save feeds: {}", e);
+            }
         }
     }
 
