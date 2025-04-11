@@ -1,6 +1,6 @@
 use crate::{list_entries, list_feeds};
 
-pub async fn list(feeds: Vec<String>, feed_id: Option<usize>) {
+pub async fn list(feeds: &[String], feed_id: Option<usize>) {
     if feeds.is_empty() {
         println!("No feeds found.");
         return;

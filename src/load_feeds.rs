@@ -25,6 +25,12 @@ pub fn load_feeds(file_path: &str) -> Vec<String> {
     feeds
 }
 
+pub fn save_feeds(file_path: &str, feeds: Vec<String>) -> Result<(), &'static str> {
+    trace!("Saving feeds to file: {}", file_path);
+    // Implement the save logic here
+    Err("Not implemented")
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

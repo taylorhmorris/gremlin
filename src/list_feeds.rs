@@ -1,4 +1,4 @@
-pub fn list_feeds(feeds: Vec<String>) {
+pub fn list_feeds(feeds: &[String]) {
     // Load the feeds from the specified database path
     if feeds.is_empty() {
         println!("No feeds found in the database.");

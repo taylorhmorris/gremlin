@@ -1,3 +1,4 @@
+pub mod add_feed;
 pub mod list;
 pub mod list_entries;
 pub mod list_feeds;
