@@ -28,7 +28,7 @@ struct Args {
 async fn main() -> Result<(), ()> {
     dotenv::dotenv().ok();
 
-    let log_level = match env::var("RUST_LOG").unwrap_or("info".to_string()).as_str() {
+    let log_level = match env::var("GREMLIN_LOG").unwrap_or("info".to_string()).as_str() {
         "trace" => log::LevelFilter::Trace,
         "debug" => log::LevelFilter::Debug,
         "info" => log::LevelFilter::Info,
@@ -42,6 +42,7 @@ async fn main() -> Result<(), ()> {
     clog.init();
     trace!("Log level set to: {}", log_level);
     trace!("Starting gremlin...");
+
     let args = Args::parse();
     let db_path = args.db_path;
 
