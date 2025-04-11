@@ -1,3 +1,5 @@
+use log::error;
+
 use crate::{list_entries, list_feeds};
 
 pub async fn list(feeds: &[String], feed_id: Option<usize>) {
@@ -22,7 +24,11 @@ pub async fn list(feeds: &[String], feed_id: Option<usize>) {
         }
         None => {
             // List all feeds
-            list_feeds::list_feeds(feeds);
+            let result = list_feeds::list_feeds(feeds, &mut std::io::stdout().lock());
+            if result.is_err() {
+                error!("Error listing feeds.");
+                println!("Error listing feeds.");
+            }
         }
     }
 }
