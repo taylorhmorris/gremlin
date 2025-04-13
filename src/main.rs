@@ -22,7 +22,7 @@ struct Args {
     command: Command,
 
     /// The path to the feeds database file
-    #[arg(short, long, default_value = "db/feeds.grem")]
+    #[arg(short, long, default_value = "db/")]
     db_path: String,
 }
 
@@ -49,7 +49,7 @@ async fn main() -> Result<(), ()> {
     trace!("Starting gremlin...");
 
     let args = Args::parse();
-    let db_path = args.db_path;
+    let db_path = args.db_path + "feeds.grem";
 
     let mut dirty: bool = false; // track if we need to save feeds
     let mut feeds = load_feeds::load_feeds(&db_path);
